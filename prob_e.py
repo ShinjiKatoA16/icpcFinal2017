@@ -32,7 +32,7 @@ def search_minmax(t, n, dist, speed):
     return min_c, max_c
 
 
-MAX_ERROR = 10 ** (-7)
+MAX_ERROR = 10 ** (-3)
 
 n, t = map(int, sys.stdin.readline().split())
 dist = list()
@@ -47,14 +47,16 @@ min_c, max_c = search_minmax(t, n, dist, speed)
 #print(min_c, max_c, file=sys.stderr)
 
 while True:
+    if max_c-min_c < MAX_ERROR:
+        break
     c = (min_c + max_c) / 2
     travel_time = total_time(c, n, dist, speed)
-    if abs(travel_time - t) < MAX_ERROR:
-        break
 
-    if travel_time < t:
+    if travel_time == t:
+        max_c = min_c = c
+    elif travel_time < t:
         max_c = c
     else:
         min_c = c
 
-print(c)
+print(round(c,2))
